@@ -27,6 +27,32 @@ namespace music_manager_starter.Server.Controllers
         [HttpPost]
         public async Task<ActionResult<Song>> PostSong(Song song)
         {
+            try
+            {
+                if (song == null)
+                {
+                    return BadRequest("Song cannot be null.");
+                }
+
+                _context.Songs.Add(song);
+                await _context.SaveChangesAsync();
+
+                return Ok(song);
+            }
+            catch (Exception ex)
+            {
+                // Log the error (or you can use a logging library)
+                Console.WriteLine(ex.Message); // This will log to the console for now
+                return StatusCode(500, "Internal server error: " + ex.Message); // Return an error message
+            }
+        }
+
+
+
+        /*
+        [HttpPost]
+        public async Task<ActionResult<Song>> PostSong(Song song)
+        {
             if (song == null)
             {
                 return BadRequest("Song cannot be null.");
@@ -37,6 +63,6 @@ namespace music_manager_starter.Server.Controllers
             await _context.SaveChangesAsync();
 
             return Ok();
-        }
+        } */
     }
 }

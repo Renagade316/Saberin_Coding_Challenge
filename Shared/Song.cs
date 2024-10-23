@@ -13,5 +13,7 @@ namespace music_manager_starter.Shared
         public string Artist { get; set; }
         public string Album { get; set; }
         public string Genre { get; set; }
+
+        public byte[] AlbumCover { get; set; }
     }
 }

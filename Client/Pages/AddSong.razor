@@ -29,6 +29,12 @@
             <InputText @bind-Value="newSong.Genre" class="mt-1 block w-full p-2 border rounded" />
         </div>
 
+        <div class = "mb-4">
+            <label class = "block text-gray-200"> Album Cover </label>
+            <InputFile OnChange="HandleFileSelected"/>
+        </div>
+        
+
         <button type="submit" class="bg-purple-600 text-white px-4 py-2 rounded">Add Song</button>
     </EditForm>
 
@@ -41,6 +47,21 @@
 @code {
     private Song newSong = new Song();
     private string message;
+
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        if (file != null)
+        {
+            using (var stream = new MemoryStream())
+            {
+                await file.OpenReadStream().CopyToAsync(stream);
+                newSong.AlbumCover = stream.ToArray();
+            }
+        }
+
+    }
 
     private async Task HandleValidSubmit()
     {
@@ -55,4 +76,6 @@
             message = "Error adding song. Please try again.";
         }
     }
+
+
 }
